@@ -110,25 +110,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @DynamoDBTable(tableName = "Pinpointer")
     public class Pinpointer{
         private String code;
-        private ArrayList<LatLng> points = new ArrayList<LatLng>();
+      //  private ArrayList<LatLng> points = new ArrayList<LatLng>();
 
         @DynamoDBHashKey(attributeName="code")
         public String getCode(){
             return code;
         }
 
-        @DynamoDBAttribute(attributeName="points")
-        public ArrayList<LatLng> getPoints(){
-            return points;
-        }
+
+        //@DynamoDBAttribute(attributeName="points")
+       // public ArrayList<LatLng> getPoints(){
+        //    return points;
+        //}
 
         public void setCode(String myCode){
             this.code=myCode;
         }
 
-        public void setPoints(ArrayList<LatLng> points) {
-            this.points = points;
-        }
+       // public void setPoints(ArrayList<LatLng> points) {
+        //    this.points = points;
+        //}
     }
 
     //Connect the google api client
@@ -240,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Pinpointer myPin = new Pinpointer();
         myPin.setCode(code);
-        myPin.setPoints(points);
+        //myPin.setPoints(points);
         mapper.save(myPin);
 
     }
