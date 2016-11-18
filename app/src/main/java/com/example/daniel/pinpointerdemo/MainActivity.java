@@ -32,6 +32,14 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.dynamodbv2.*;
+import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.*;
+import com.amazonaws.services.dynamodbv2.model.*;
+
+
+
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener{
@@ -43,6 +51,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private String code;
     private ArrayList<LatLng> points = new ArrayList<LatLng>();
     protected Boolean mRequestingLocationUpdates;
+
+
+    // Initialize the Amazon Cognito credentials provider
+    CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
+            getApplicationContext(),
+            "us-west-2:80b81944-e7f9-41d2-af86-3b696e2e8bf7", // Identity Pool ID
+            Regions.US_WEST_2 // Region
+    );
+
+    //Create a DynamoDB Client
+    AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(credentialsProvider);
+    DynamoDBMapper mapper = new DynamoDBMapper(ddbClient);
 
 
     @Override
@@ -81,6 +101,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+
+
+    }
+
+    @DynamoDBTable(tableName = "Pinpointer")
+    public class Pinpointer{
+        private String code;
+        private ArrayList<LatLng> points = new ArrayList<LatLng>();
+
+        @DynamoDBHashKey(attributeName="code")
+        public String getCode(){
+            return code;
+        }
+
+        @DynamoDBAttribute(attributeName="points")
+        public ArrayList<LatLng> getPoints(){
+            return points;
+        }
+
+        public void setCode(String myCode){
+            this.code=myCode;
+        }
+
+        public void setPoints(ArrayList<LatLng> points) {
+            this.points = points;
+        }
     }
 
     //Connect the google api client
@@ -189,6 +235,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         /*
         Send arraylist and code to server
          */
+
+        Pinpointer myPin = new Pinpointer();
+        myPin.setCode(code);
+        myPin.setPoints(points);
+        mapper.save(myPin);
 
     }
 
