@@ -54,15 +54,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     // Initialize the Amazon Cognito credentials provider
-    CognitoCachingCredentialsProvider credentialsProvider = new CognitoCachingCredentialsProvider(
-            getApplicationContext(),
-            "us-west-2:80b81944-e7f9-41d2-af86-3b696e2e8bf7", // Identity Pool ID
-            Regions.US_WEST_2 // Region
-    );
+    CognitoCachingCredentialsProvider credentialsProvider;
 
     //Create a DynamoDB Client
-    AmazonDynamoDBClient ddbClient = new AmazonDynamoDBClient(credentialsProvider);
-    DynamoDBMapper mapper = new DynamoDBMapper(ddbClient);
+    AmazonDynamoDBClient ddbClient;
+    DynamoDBMapper mapper;
 
 
     @Override
@@ -102,7 +98,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-
+        credentialsProvider = new CognitoCachingCredentialsProvider(
+                getApplicationContext(),
+                "us-west-2:80b81944-e7f9-41d2-af86-3b696e2e8bf7", // Identity Pool ID
+                Regions.US_WEST_2 // Region
+        );
+        ddbClient = new AmazonDynamoDBClient(credentialsProvider);
+        mapper = new DynamoDBMapper(ddbClient);
     }
 
     @DynamoDBTable(tableName = "Pinpointer")
