@@ -35,7 +35,7 @@
         android:layout_width="125dp"
         android:layout_height="55dp"
         android:id="@+id/arrival_button"
-        android:backgroundTint="#E62205"
+        android:backgroundTint="#F44336"
 
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
