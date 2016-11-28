@@ -28,15 +28,25 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="I Have Arrived"
-        android:textStyle="bold"
+        android:text="Finish"
+        android:elevation="2dp"
         android:textColor="#FFFFFF"
-        android:textSize="15sp"
+        android:textSize="16dp"
         android:layout_width="125dp"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:id="@+id/arrival_button"
-        android:background="#E62205"
+        android:backgroundTint="#E62205"
 
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="Cancel"
+        android:layout_width="125dp"
+        android:layout_height="55dp"
+        android:elevation="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:textSize="16dp"
+        android:id="@+id/cancel_button" />
 </RelativeLayout>

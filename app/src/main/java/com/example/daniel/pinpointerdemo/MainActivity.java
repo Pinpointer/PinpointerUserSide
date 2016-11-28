@@ -1,9 +1,12 @@
 package com.example.daniel.pinpointerdemo;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,7 +37,7 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener{
+        GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private GoogleMap mMap;
     private Location mCurrentLocation;
@@ -49,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mRequestingLocationUpdates=false;
+        mRequestingLocationUpdates = false;
 
         //get the map fragment from the activity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -57,10 +60,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         //Setup Google API client for location services
-        mGoogleApiClient = new GoogleApiClient.Builder( mapFragment.getContext() )
-                .addConnectionCallbacks( this )
-                .addOnConnectionFailedListener( this )
-                .addApi( LocationServices.API )
+        mGoogleApiClient = new GoogleApiClient.Builder(mapFragment.getContext())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
                 .build();
 
         //Setup Location request interval and accuracy
@@ -70,14 +73,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         //Setup arrival button and on click listener
-        Button arrival_button = (Button)findViewById(R.id.arrival_button);
+        Button arrival_button = (Button) findViewById(R.id.arrival_button);
         arrival_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Stops getting locations updates and draws the polylines
                 stopLocationUpdates();
                 sendCoordinatesandCode();
-                mapPolylines();
             }
         });
 
@@ -123,6 +125,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //get instance of map object and setup intial settings
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setCompassEnabled(true);
 
@@ -131,9 +143,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onConnected(Bundle bundle) {
         //Setup google api client for getting location updates and initialize starting camera
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mCurrentLocation = LocationServices
                 .FusedLocationApi
-                .getLastLocation( mGoogleApiClient );
+                .getLastLocation(mGoogleApiClient);
 
         if (mRequestingLocationUpdates) {
             startLocationUpdates();
@@ -145,6 +167,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     protected void startLocationUpdates() {
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
     }
 
@@ -174,11 +206,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Save coordinates to arraylist when getting new location update
     @Override
     public void onLocationChanged(Location location) {
-        mCurrentLocation = location;
-        Log.d("Update",Double.toString(location.getLatitude()));
-        saveCoordinates();
+        if(location.distanceTo(mCurrentLocation)>9) {
+            mCurrentLocation = location;
+            Log.d("Update", Double.toString(location.getLatitude()));
+            updateLine();
+            saveCoordinates();
+        }
     }
 
+    //adds polyline to map
+    private void updateLine(){
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .add(points.get(points.size()-1))
+                .add(new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude()))
+                .width(5)
+                .color(Color.RED));
+    }
     //Add to arraylist
     private void saveCoordinates(){
         LatLng latlng = new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
@@ -192,14 +235,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    //Maps the polylines to map based on list of LatLng
-    private void mapPolylines(){
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .addAll(points)
-                .width(5)
-                .color(Color.RED));
-
-    }
 
     //Dialog Message to handle getting pinpointer code
     private void showDialog(){
