@@ -3,6 +3,7 @@ package com.example.daniel.pinpointerdemo;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mLocationRequest.setFastestInterval(3000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
+        final Intent intent = new Intent(this,FinishActivity.class);
         //Setup arrival button and on click listener
         Button arrival_button = (Button) findViewById(R.id.arrival_button);
         arrival_button.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //Stops getting locations updates and draws the polylines
                 stopLocationUpdates();
                 sendCoordinatesandCode();
+                intent.putExtra("Location",points.get(0));
+                startActivity(intent);
             }
         });
 
