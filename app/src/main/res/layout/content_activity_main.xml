@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.daniel.pinpointerdemo.MainActivity">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/map"
+        tools:context=".MapsActivity"
+        android:name="com.google.android.gms.maps.SupportMapFragment" />
+
+    <TextView
+        android:id="@+id/pincode_text"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:background="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text=""
+        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Finish"
+        android:elevation="4dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:id="@+id/arrival_button"
+        android:backgroundTint="#F44336"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Start Pinpointer"
+        android:elevation="4dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:id="@+id/startpin_button"
+        android:backgroundTint="#F44336"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        app:srcCompat="@drawable/ic_menu_white_36px"
+        android:id="@+id/navImage"
+        android:elevation="4dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="12dp"/>
+
+</RelativeLayout>
