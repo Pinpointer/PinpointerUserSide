@@ -15,28 +15,23 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by Daniel on 12/1/16.
  */
 
-public class FinishActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class FinishActivity extends AppCompatActivity{
 
-    private GoogleMap mMap;
-    //private Location loc;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.finish_activity);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.finish_map);
-        mapFragment.getMapAsync(this);
+
+        // Remember that you should never show the action bar if the
+        // status bar is hidden, so hide that too if necessary.
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         Intent intent  = getIntent();
         //loc = (Location)intent.getSerializableExtra("Location");
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        //initCamera();
-    }
 
     //Setup camera when app first loads
 /*    private void initCamera() {
