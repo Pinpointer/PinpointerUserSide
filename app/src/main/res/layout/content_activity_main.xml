@@ -59,7 +59,7 @@
         app:srcCompat="@drawable/ic_menu_white_36px"
         android:id="@+id/navImage"
         android:elevation="4dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="12dp"/>
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="20dp"/>
 
 </RelativeLayout>
