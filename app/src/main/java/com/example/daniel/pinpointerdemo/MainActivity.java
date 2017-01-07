@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ArrayList<LatLng> points = new ArrayList<LatLng>();
     protected Boolean mRequestingLocationUpdates;
     private Button arrival_button;
-    Button startpin_button;
+    private Button startpin_button;
     private DrawerLayout mDrawerLayout;
 
     @Override
@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 sendCoordinatesandCode();
                 intent.putExtra("Points",points);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -208,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Setup camera when app first loads
     private void initCamera() {
         LatLng latlng = new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-        points.add(latlng);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng,16f));
 
     }
@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Save coordinates to arraylist when getting new location update
     @Override
     public void onLocationChanged(Location location) {
-        if(location.distanceTo(mCurrentLocation)>9) {
+        if(location.distanceTo(mCurrentLocation)>9 && mRequestingLocationUpdates) {
             mCurrentLocation = location;
             Log.d("Update", Double.toString(location.getLatitude()));
             updateLine();
@@ -226,11 +226,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //adds polyline to map
     private void updateLine(){
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .add(points.get(points.size()-1))
-                .add(new LatLng(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude()))
-                .width(5)
-                .color(Color.RED));
+        if(!points.isEmpty()) {
+            Polyline line = mMap.addPolyline(new PolylineOptions()
+                    .add(points.get(points.size() - 1))
+                    .add(new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude()))
+                    .width(10)
+                    .color(Color.RED));
+        }
     }
     //Add to arraylist
     private void saveCoordinates(){

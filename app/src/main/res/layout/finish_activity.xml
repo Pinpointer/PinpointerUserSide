@@ -20,15 +20,16 @@
             android:layout_height="wrap_content"
             android:text="Enter Title: "
             android:id="@+id/finishcode_text"
-            android:layout_marginTop="24dp"
-            android:layout_marginLeft="36dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="5dp"
             android:textColor="#F44336"
             />
 
         <EditText
         android:id="@+id/edittext"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:layout_marginLeft="120dp"
             />
         <TextView
@@ -37,15 +38,15 @@
             android:id="@+id/finishcode_text2"
             android:text="Enter Description: "
             android:layout_marginTop="40dp"
-            android:layout_marginLeft="36dp"
+            android:layout_marginLeft="5dp"
             android:textColor="#F44336"
             />
         <EditText
             android:id="@+id/edittext2"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="40dp"
             />
 
     </RelativeLayout>
