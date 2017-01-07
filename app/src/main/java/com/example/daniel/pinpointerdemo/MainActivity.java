@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //Stops getting locations updates and draws the polylines
                 stopLocationUpdates();
                 sendCoordinatesandCode();
-                intent.putExtra("Location",points.get(0));
+                intent.putExtra("Points",points);
                 startActivity(intent);
             }
         });
