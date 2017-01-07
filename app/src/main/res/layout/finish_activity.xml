@@ -3,10 +3,12 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="3">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -15,11 +17,36 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SampleCode"
+            android:text="Enter Title: "
             android:id="@+id/finishcode_text"
             android:layout_marginTop="24dp"
             android:layout_marginLeft="36dp"
-            android:textColor="#F44336"/>
+            android:textColor="#F44336"
+            />
+
+        <EditText
+        android:id="@+id/edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/finishcode_text2"
+            android:text="Enter Description: "
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="36dp"
+            android:textColor="#F44336"
+            />
+        <EditText
+            android:id="@+id/edittext2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="10dp"
+            />
+
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
