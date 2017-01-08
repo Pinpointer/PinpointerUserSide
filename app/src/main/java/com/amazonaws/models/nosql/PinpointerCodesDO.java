@@ -15,6 +15,7 @@ import java.util.Set;
 
 public class PinpointerCodesDO {
     private String _pinpointercode;
+    private String _coordinatelist;
 
     @DynamoDBHashKey(attributeName = "pinpointercode")
     @DynamoDBAttribute(attributeName = "pinpointercode")
@@ -24,6 +25,14 @@ public class PinpointerCodesDO {
 
     public void setPinpointercode(final String _pinpointercode) {
         this._pinpointercode = _pinpointercode;
+    }
+    @DynamoDBAttribute(attributeName = "coordinatelist")
+    public String getCoordinatelist() {
+        return _coordinatelist;
+    }
+
+    public void setCoordinatelist(final String _coordinatelist) {
+        this._coordinatelist = _coordinatelist;
     }
 
 }

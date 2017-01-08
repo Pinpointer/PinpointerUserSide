@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         /*
         Send arraylist and code to server
          */
-        new insertToServer().execute(code);
+        new insertToServer(pointsToString()).execute(code);
     }
 
 
@@ -283,6 +283,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public void openDrawer(){
         mDrawerLayout.openDrawer(Gravity.LEFT);
+    }
+
+    public String pointsToString(){
+        String s="";
+        for(LatLng lt:points){
+            s+="|"+lt.latitude+","+lt.longitude;
+        }
+        return s;
     }
 
 

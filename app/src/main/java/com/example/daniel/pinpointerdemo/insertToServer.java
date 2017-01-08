@@ -7,12 +7,21 @@ import com.amazonaws.AmazonClientException;
 import com.amazonaws.mobile.AWSMobileClient;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBMapper;
 import com.amazonaws.models.nosql.PinpointerCodesDO;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
 
 /**
  * Created by Daniel on 1/7/17.
  */
 
 public class insertToServer extends AsyncTask<String,Void,Integer> {
+
+    private String points;
+    public insertToServer(String points){
+        this.points = points;
+    }
+
     @Override
     protected Integer doInBackground(String... codes) {
         final DynamoDBMapper dynamoDBMapper = AWSMobileClient.defaultMobileClient().getDynamoDBMapper();
@@ -22,7 +31,7 @@ public class insertToServer extends AsyncTask<String,Void,Integer> {
         // User's Cognito Identity Id can be fetched by using:
         // AWSMobileClient.defaultMobileClient().getIdentityManager().getCachedUserID()
         note.setPinpointercode(codes[0]);
-
+        note.setCoordinatelist(points);
         AmazonClientException lastException = null;
 
         try {
