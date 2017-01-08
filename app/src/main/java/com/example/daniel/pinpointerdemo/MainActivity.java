@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         /*
         Send arraylist and code to server
          */
-
+        new insertToServer().execute(code);
     }
 
 
@@ -283,4 +284,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void openDrawer(){
         mDrawerLayout.openDrawer(Gravity.LEFT);
     }
+
+
 }
